@@ -9,3 +9,9 @@ __pycache__
 
 # Development container
 .devcontainer
+
+# Node.js dependencies
+node_modules
+
+# CSS output
+output.css
