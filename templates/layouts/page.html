@@ -1,0 +1,31 @@
+{# Page layout #}
+
+{% load compress %}
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>aesthetiq | {% block title %}AI-empowered imagery{% endblock title %}</title>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="keywords" content="Images, AI" />
+        <meta name="description" content="{% block description %}AI-empowered imagery{% endblock description %}" />
+
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+        {% compress css %}
+            <link rel="stylesheet" href="{% static 'css/output.css' %}">
+        {% endcompress %}
+    </head>
+
+    <body>
+        {% csrf_token %}
+
+        {% block body %}
+            <span>Hey developer! You forget to add the content of this page 🫣</span>
+        {% endblock body %}
+    </body>
+</html>
