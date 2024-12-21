@@ -8,7 +8,57 @@
 {% block body %}
     <main>
         <section>
-            <h1>Sign in page</h1>
+            <div class="w-full h-screen flex items-center justify-center">
+                <div class="w-[30rem] bg-gray-100 p-6 rounded-lg">
+                    <h1 class="text-4xl font-bold">Sign in</h1>
+
+                    <form class="mt-8">
+                        <div class="space-y-4">
+                            <div>
+                                <label
+                                    class="text-sm mb-2"
+                                    for="email"
+                                >
+                                    Email
+                                </label>
+                                
+                                <input
+                                    class="w-full bg-gray-50 text-sm p-2.5 border border-gray-200 outline-none rounded-lg focus:border-blue-500"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Your email..."
+                                    autocomplete="email"
+                                />
+                            </div>
+
+                            <div>
+                                <label
+                                    class="text-sm mb-2"
+                                    for="password"
+                                >
+                                    Password
+                                </label>
+                                
+                                <input
+                                    class="w-full bg-gray-50 text-sm p-2.5 border border-gray-200 outline-none rounded-lg focus:border-blue-500"
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    placeholder="Your password..."
+                                    autocomplete="current-password"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            class="w-full bg-blue-700 text-sm text-white mt-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                            type="submit"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
         </section>
     </main>
 {% endblock body %}
