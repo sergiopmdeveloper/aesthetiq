@@ -12,41 +12,57 @@
                 <div class="w-[30rem] bg-gray-100 p-6 rounded-lg">
                     <h1 class="text-4xl font-bold">Sign in</h1>
 
-                    <form class="mt-8">
+                    <form class="mt-8" method="post" action={% url 'sign-in' %}>
+                        {% csrf_token %}
+
                         <div class="space-y-4">
                             <div>
                                 <label
-                                    class="text-sm mb-2"
+                                    class="text-sm"
                                     for="email"
                                 >
                                     Email
                                 </label>
                                 
                                 <input
-                                    class="w-full bg-gray-50 text-sm p-2.5 border border-gray-200 outline-none rounded-lg focus:border-blue-500"
+                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if errors.email|length > 0%}border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none rounded-lg"
                                     id="email"
                                     name="email"
                                     placeholder="Your email..."
                                     autocomplete="email"
+                                    value="{{ data.email }}"
                                 />
+
+                                {% if errors.email|length > 0 %}
+                                    <p class="text-xs text-red-500 mt-2">
+                                        {{ errors.email.0 }}
+                                    </p>
+                                {% endif %}
                             </div>
 
                             <div>
                                 <label
-                                    class="text-sm mb-2"
+                                    class="text-sm"
                                     for="password"
                                 >
                                     Password
                                 </label>
                                 
                                 <input
-                                    class="w-full bg-gray-50 text-sm p-2.5 border border-gray-200 outline-none rounded-lg focus:border-blue-500"
+                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if errors.password|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
                                     id="password"
                                     name="password"
                                     type="password"
                                     placeholder="Your password..."
                                     autocomplete="current-password"
+                                    value="{{ data.password }}"
                                 />
+
+                                {% if errors.password|length > 0 %}
+                                    <p class="text-xs text-red-500 mt-2">
+                                        {{ errors.password.0 }}
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
 

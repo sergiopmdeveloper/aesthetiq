@@ -5,6 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import never_cache
 
+from authentication.forms import SignInForm
+
 
 class SignInView(View):
     """
@@ -26,5 +28,31 @@ class SignInView(View):
         HttpResponse
             The rendered sign in page.
         """
+
+        return render(request, "authentication/sign-in.html")
+
+    def post(self, request: WSGIRequest) -> HttpResponse:
+        """
+        Handles the sign in form submission.
+
+        Parameters
+        ----------
+        request : WSGIRequest
+            The request object.
+
+        Returns
+        -------
+        HttpResponse
+            ...
+        """
+
+        sign_in_form = SignInForm(request.POST)
+
+        if not sign_in_form.is_valid():
+            return render(
+                request,
+                "authentication/sign-in.html",
+                {"data": sign_in_form.data, "errors": sign_in_form.errors},
+            )
 
         return render(request, "authentication/sign-in.html")
