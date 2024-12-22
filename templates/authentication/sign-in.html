@@ -9,7 +9,7 @@
     <main>
         <section>
             <div class="w-full h-screen flex items-center justify-center">
-                <div class="w-[30rem] bg-gray-100 p-6 rounded-lg">
+                <div class="relative w-[30rem] bg-gray-100 p-6 rounded-lg">
                     <h1 class="text-4xl font-bold">Sign in</h1>
 
                     <form class="mt-8" method="post" action={% url 'sign-in' %}>
@@ -25,17 +25,17 @@
                                 </label>
                                 
                                 <input
-                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if errors.email|length > 0%}border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none rounded-lg"
+                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.email|length > 0%}border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none rounded-lg"
                                     id="email"
                                     name="email"
                                     placeholder="Your email..."
                                     autocomplete="email"
-                                    value="{{ data.email }}"
+                                    value="{{ form.data.email }}"
                                 />
 
-                                {% if errors.email|length > 0 %}
+                                {% if form.errors.email|length > 0 %}
                                     <p class="text-xs text-red-500 mt-2">
-                                        {{ errors.email.0 }}
+                                        {{ form.errors.email.0 }}
                                     </p>
                                 {% endif %}
                             </div>
@@ -49,18 +49,18 @@
                                 </label>
                                 
                                 <input
-                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if errors.password|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
+                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.password|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
                                     id="password"
                                     name="password"
                                     type="password"
                                     placeholder="Your password..."
                                     autocomplete="current-password"
-                                    value="{{ data.password }}"
+                                    value="{{ form.data.password }}"
                                 />
 
-                                {% if errors.password|length > 0 %}
+                                {% if form.errors.password|length > 0 %}
                                     <p class="text-xs text-red-500 mt-2">
-                                        {{ errors.password.0 }}
+                                        {{ form.errors.password.0 }}
                                     </p>
                                 {% endif %}
                             </div>
@@ -73,6 +73,12 @@
                             Submit
                         </button>
                     </form>
+
+                    {% if form.non_field_errors|length > 0 %}
+                        <p class="absolute -top-8 right-0 bg-red-300 text-xs text-red-700 px-1.5 py-1 rounded-lg">
+                            {{ form.non_field_errors.0 }}
+                        </p>
+                    {% endif %}
                 </div>
             </div>
         </section>

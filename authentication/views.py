@@ -52,7 +52,7 @@ class SignInView(View):
             return render(
                 request,
                 "authentication/sign-in.html",
-                {"data": sign_in_form.data, "errors": sign_in_form.errors},
+                {"form": sign_in_form},
             )
 
         return render(request, "authentication/sign-in.html")
