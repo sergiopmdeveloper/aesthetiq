@@ -6,9 +6,24 @@ from authentication.models import AppUser
 class SignInForm(ModelForm):
     """
     Sign in form.
+
+    Attributes
+    ----------
+    email : EmailField
+        The overridden email field.
+    user : Optional[AppUser]
+        The user if the credentials are valid.
+
+    Methods
+    -------
+    clean()
+        Custom form validation.
+    _validate_user_credentials(email, password)
+        Validates the user credentials.
     """
 
     email = EmailField()
+    user = None
 
     def clean(self) -> None:
         """
@@ -20,8 +35,7 @@ class SignInForm(ModelForm):
         if not self.errors.get("email") and not self.errors.get("password"):
             self._validate_user_credentials(data["email"], data["password"])
 
-    @staticmethod
-    def _validate_user_credentials(email: str, password: str) -> None:
+    def _validate_user_credentials(self, email: str, password: str) -> None:
         """
         Validates the user credentials.
 
@@ -42,6 +56,8 @@ class SignInForm(ModelForm):
 
         if not user or not user.check_password(password):
             raise ValidationError("Invalid email or password")
+
+        self.user = user
 
     class Meta:
         """
