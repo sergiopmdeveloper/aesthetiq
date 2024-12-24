@@ -2,7 +2,7 @@
  * Disables the button that triggered the form submission.
  * @param {Event} event - The event that triggered the form submission.
  */
-function disableButtonOnLoading(event) {
+export function disableButtonOnLoading(event) {
   event.preventDefault();
 
   /** @type {HTMLButtonElement} */
@@ -17,3 +17,5 @@ function disableButtonOnLoading(event) {
 
   button.closest('form').submit();
 }
+
+window.disableButtonOnLoading = disableButtonOnLoading;

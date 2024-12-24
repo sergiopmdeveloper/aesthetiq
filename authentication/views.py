@@ -31,7 +31,7 @@ class SignInView(View):
         """
 
         if request.user.is_authenticated:
-            return redirect("/account")
+            return redirect("/account/details")
 
         return render(request, "authentication/sign-in.html")
 
@@ -62,4 +62,4 @@ class SignInView(View):
 
         login(request, sign_in_form.user)
 
-        return redirect("/account")
+        return redirect("/account/details")
