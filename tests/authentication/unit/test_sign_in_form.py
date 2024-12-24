@@ -21,9 +21,9 @@ def test_sign_in_form_field_errors(email, password, expected_errors):
     form = SignInForm(data={"email": email, "password": password})
 
     # Assert
+    assert not form.is_valid()
     for field, error in expected_errors.items():
         assert form.errors[field] == error
-    assert not form.is_valid()
 
 
 @pytest.mark.django_db
