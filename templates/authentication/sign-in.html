@@ -2,8 +2,14 @@
 
 {% extends "layouts/page.html" %}
 
+{% load static %}
+
 {% block title %}Sign In{% endblock title %}
 {% block description %}Sign in page{% endblock description %}
+
+{% block js %}
+    <script src="{% static 'js/utils.js' %}"></script>
+{% endblock js %}
 
 {% block body %}
     <main>
@@ -68,7 +74,7 @@
 
                         <button
                             class="w-full bg-blue-700 text-sm text-white mt-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
-                            type="submit"
+                            onclick="disableButtonOnLoading(event)"
                         >
                             Submit
                         </button>

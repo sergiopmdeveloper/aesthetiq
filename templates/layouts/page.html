@@ -19,6 +19,11 @@
         {% compress css %}
             <link rel="stylesheet" href="{% static 'css/output.css' %}">
         {% endcompress %}
+
+        {% compress js %}
+            {% block js %}
+            {% endblock js %}
+        {% endcompress js %}
     </head>
 
     <body>
