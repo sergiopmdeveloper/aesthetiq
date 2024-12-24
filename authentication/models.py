@@ -1,0 +1,31 @@
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+
+class AppUser(AbstractUser):
+    """
+    App user model.
+    """
+
+    email = models.EmailField(unique=True, error_messages={"unique": "Email already exists."})
+    email_confirmed = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        """
+        String representation of the user.
+
+        Returns
+        -------
+        str
+            The email of the user.
+        """
+
+        return self.email
+
+    class Meta:
+        """
+        Metadata options.
+        """
+
+        db_table = "users"
+        verbose_name_plural = "Users"

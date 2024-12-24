@@ -15,3 +15,6 @@ node_modules
 
 # CSS output
 output.css
+
+# Visual Studio Code
+.vscode

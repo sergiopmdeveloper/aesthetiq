@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "compressor",
+    "authentication",
 ]
 
 
@@ -90,6 +91,8 @@ DATABASES = {
 ########
 # AUTH #
 ########
+
+AUTH_USER_MODEL = "authentication.AppUser"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
