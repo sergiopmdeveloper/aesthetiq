@@ -7,6 +7,10 @@
 {% block title %}Account details{% endblock title %}
 {% block description %}Account details page{% endblock description %}
 
+{% block js %}
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+{% endblock js %}
+
 {% block body %}
 <main>
     {% include "shared/header.html" %}

@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -63,3 +63,29 @@ class SignInView(View):
         login(request, sign_in_form.user)
 
         return redirect("/account/details")
+
+
+class SignOutView(View):
+    """
+    Sign out view.
+    """
+
+    def post(self, request: WSGIRequest) -> HttpResponseRedirect:
+        """
+        Signs out the user.
+
+        Parameters
+        ----------
+        request : WSGIRequest
+            The request object.
+
+        Returns
+        -------
+        HttpResponseRedirect
+            The redirection to the sign in
+            page after signing the user out.
+        """
+
+        logout(request)
+
+        return redirect("/authentication/sign-in")

@@ -12,11 +12,17 @@
 
             <div class="flex items-center lg:order-2">
                 {% if user.is_authenticated %}
-                    <button
-                        class="w-full bg-red-700 text-sm text-white px-4 py-2.5 rounded-lg hover:bg-red-700/80 focus:ring-4 focus:ring-red-300"
-                    >
-                        Sign out
-                    </button>
+                    <form method="post" action={% url 'sign-out' %}>
+                        {% csrf_token %}
+
+                        <button
+                            class="w-full bg-red-700 text-sm text-white px-4 py-2.5 rounded-lg hover:bg-red-700/80 focus:ring-4 focus:ring-red-300"
+                            onclick="disableButtonOnLoading(event)"
+                            variant="destructive"
+                        >
+                            Sign out
+                        </button>
+                    </form>
                 {% else %}
                     <a href="/authentication/sign-in">
                         <button
