@@ -9,8 +9,12 @@
 
 {% block body %}
 <main>
-    <section>
-        <h1>Account details</h1>
+    {% include "shared/header.html" %}
+
+    <section class="mt-20 px-4">
+        <div class="max-w-screen-2xl mx-auto">
+            <h1>Account details</h1>
+        </div>
     </section>
 </main>
 {% endblock body %}
