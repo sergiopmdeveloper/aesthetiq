@@ -15,26 +15,42 @@
 <main>
     {% include "shared/header.html" %}
 
+    {% if result == "success" %}
+        <div
+            class="absolute bottom-4 right-4 flex items-center gap-2 bg-green-300 p-2 rounded-lg shadow"
+            id="toast-account-updated"
+        >
+            <p class="text-green-700 text-xs">Account updated successfuly</p>
+
+            <button
+                class="h-6 w-6 flex items-center justify-center bg-green-500 rounded-lg hover:bg-green-500/80 focus:ring-2 focus:ring-green-400"
+                data-dismiss-target="#toast-account-updated"
+            >
+                {% include "icons/cross.html" with class="w-2 h-2 text-green-900" %}
+            </button>
+        </div>
+    {% endif %}
+
     <section class="mt-24 px-4">
         <div class="max-w-screen-2xl mx-auto">
             <h1 class="text-2xl">Account details <strong>{{ request.user.first_name }}</strong></h1>
 
-            <form class="mt-8">
+            <form class="mt-8" method="post" action={% url 'account-details' %}>
                 {% csrf_token %}
 
                 <div class="space-y-4">
                     <div>
                         <label
                             class="text-sm"
-                            for="first-name"
+                            for="first_name"
                         >
                             First name
                         </label>
                         
                         <input
                             class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
-                            id="first-name"
-                            name="first-name"
+                            id="first_name"
+                            name="first_name"
                             placeholder="Your first name..."
                             autocomplete="off"
                             value="{{ request.user.first_name }}"
@@ -44,15 +60,15 @@
                     <div>
                         <label
                             class="text-sm"
-                            for="last-name"
+                            for="last_name"
                         >
                             Last name
                         </label>
                         
                         <input
                             class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
-                            id="last-name"
-                            name="last-name"
+                            id="last_name"
+                            name="last_name"
                             placeholder="Your last name..."
                             autocomplete="off"
                             value="{{ request.user.last_name }}"
@@ -65,7 +81,11 @@
                     <a class="text-blue-500 underline">Reset</a>
                 </p>
 
-                <button class="w-full bg-blue-700 text-sm text-white mt-6 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300">
+                <button
+                    class="w-full bg-blue-700 text-sm text-white mt-6 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                    onclick="disableButtonOnLoading(event)"
+                    variant="primary"
+                >
                     Submit
                 </button>
             </form>
