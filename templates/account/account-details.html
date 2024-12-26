@@ -15,9 +15,60 @@
 <main>
     {% include "shared/header.html" %}
 
-    <section class="mt-20 px-4">
+    <section class="mt-24 px-4">
         <div class="max-w-screen-2xl mx-auto">
-            <h1>Account details</h1>
+            <h1 class="text-2xl">Account details <strong>{{ request.user.first_name }}</strong></h1>
+
+            <form class="mt-8">
+                {% csrf_token %}
+
+                <div class="space-y-4">
+                    <div>
+                        <label
+                            class="text-sm"
+                            for="first-name"
+                        >
+                            First name
+                        </label>
+                        
+                        <input
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
+                            id="first-name"
+                            name="first-name"
+                            placeholder="Your first name..."
+                            autocomplete="off"
+                            value="{{ request.user.first_name }}"
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-sm"
+                            for="last-name"
+                        >
+                            Last name
+                        </label>
+                        
+                        <input
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
+                            id="last-name"
+                            name="last-name"
+                            placeholder="Your last name..."
+                            autocomplete="off"
+                            value="{{ request.user.last_name }}"
+                        />
+                    </div>
+                </div>
+
+                <p class="text-sm mt-4">
+                    Do you want to change your password?
+                    <a class="text-blue-500 underline">Reset</a>
+                </p>
+
+                <button class="w-full bg-blue-700 text-sm text-white mt-6 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300">
+                    Submit
+                </button>
+            </form>
         </div>
     </section>
 </main>
