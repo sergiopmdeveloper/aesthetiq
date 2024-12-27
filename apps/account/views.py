@@ -52,7 +52,7 @@ class AccountDetailsView(View):
         if not account_details_form.is_valid():
             return render(
                 request,
-                "authentication/sign-in.html",
+                "account/account-details.html",
                 {"form": account_details_form},
             )
 

@@ -48,13 +48,19 @@
                         </label>
                         
                         <input
-                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.first_name|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
                             id="first_name"
                             name="first_name"
                             placeholder="Your first name..."
                             autocomplete="off"
-                            value="{{ request.user.first_name }}"
+                            value="{% if form.data.first_name %}{{ form.data.first_name }}{%else%}{{ request.user.first_name }}{%endif%}"
                         />
+
+                        {% if form.errors.first_name|length > 0 %}
+                            <p class="text-xs text-red-500 mt-2">
+                                {{ form.errors.first_name.0 }}
+                            </p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -66,13 +72,19 @@
                         </label>
                         
                         <input
-                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.last_name|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
                             id="last_name"
                             name="last_name"
                             placeholder="Your last name..."
                             autocomplete="off"
-                            value="{{ request.user.last_name }}"
+                            value="{% if form.data.last_name %}{{ form.data.last_name }}{%else%}{{ request.user.last_name }}{%endif%}"
                         />
+
+                        {% if form.errors.last_name|length > 0 %}
+                            <p class="text-xs text-red-500 mt-2">
+                                {{ form.errors.last_name.0 }}
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
 
