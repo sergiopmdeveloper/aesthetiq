@@ -13,7 +13,7 @@ from authentication.models import AppUser
 )
 def test_sign_in_form_invalid_data(email, password, expected_errors):
     """
-    GIVEN a sign in form with invalid data
+    GIVEN sign in invalid data
     WHEN the form is validated
     THEN check if the form errors match the expected errors
     """
@@ -32,7 +32,7 @@ def test_sign_in_form_invalid_data(email, password, expected_errors):
 @pytest.mark.django_db
 def test_sign_in_form_invalid_credentials():
     """
-    GIVEN a sign in form with invalid credentials
+    GIVEN sign in invalid credentials
     WHEN the form is validated
     THEN check if the form errors match the expected errors
     """
@@ -51,7 +51,7 @@ def test_sign_in_form_invalid_credentials():
 @pytest.mark.django_db
 def test_sign_in_form_valid_data():
     """
-    GIVEN a sign in form with valid data
+    GIVEN sign in valid data
     WHEN the form is validated
     THEN check if the form is valid
     """
