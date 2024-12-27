@@ -1,10 +1,7 @@
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import RegexValidator
 from django.db import models
 
-NAME_VALIDATOR = RegexValidator(
-    regex=r"^[a-zA-Z\s]*$", message="Only letters and spaces are allowed."
-)
+from authentication.validators import NAME_VALIDATOR
 
 
 class AppUser(AbstractUser):

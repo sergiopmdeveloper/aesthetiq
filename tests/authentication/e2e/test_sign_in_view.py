@@ -1,30 +1,32 @@
 import pytest
+from django.urls import reverse
 
 from authentication.forms import SignInForm
 from authentication.models import AppUser
-from tests.constants import USER_DATA
 
 
 @pytest.mark.django_db
-def test_sign_in_view_get_method_authenticated(client):
+def test_sign_in_view_get_method_authenticated_session(client):
     """
     GIVEN an authenticated session
     WHEN a GET request is made to the sign in view
-    THEN redirect to the account page
+    THEN redirect to the account details page
     """
 
     # Arrange
-    user = AppUser.objects.create_user(**USER_DATA)
+    user_data = {"username": "username", "email": "user@email.com", "password": "password"}
+    user = AppUser.objects.create_user(**user_data)
     client.force_login(user)
 
     # Act
-    response = client.get("/authentication/sign-in")
+    response = client.get(reverse("sign-in"))
 
     # Assert
-    assert response.url == "/account"
+    assert response.status_code == 302
+    assert response.url == reverse("account-details")
 
 
-def test_sign_in_view_get_method_not_authenticated(client):
+def test_sign_in_view_get_method_unauthenticated_session(client):
     """
     GIVEN an unauthenticated session
     WHEN a GET request is made to the sign in view
@@ -32,7 +34,7 @@ def test_sign_in_view_get_method_not_authenticated(client):
     """
 
     # Act
-    response = client.get("/authentication/sign-in")
+    response = client.get(reverse("sign-in"))
     rendered_templates = [template.name for template in response.templates]
 
     # Assert
@@ -46,37 +48,40 @@ def test_sign_in_view_get_method_not_authenticated(client):
         ("invalid_email", "valid_password", {"email": ["Enter a valid email address."]}),
     ],
 )
-def test_sign_in_view_post_method_invalid_form(client, email, password, expected_errors):
+def test_sign_in_view_post_method_invalid_data(client, email, password, expected_errors):
     """
-    GIVEN a sign in form with invalid data
+    GIVEN sign in invalid data
     WHEN a POST request is made to the sign in view
     THEN render the sign in page with the form errors
     """
 
+    # Arrange
+    user_credentials = {"email": email, "password": password}
+
     # Act
-    response = client.post("/authentication/sign-in", data={"email": email, "password": password})
+    response = client.post(reverse("sign-in"), user_credentials)
     sign_in_form: SignInForm = response.context["form"]
     rendered_templates = [template.name for template in response.templates]
 
     # Assert
     assert not sign_in_form.is_valid()
-    for field, error in expected_errors.items():
-        assert sign_in_form.errors[field] == error
+    assert all(sign_in_form.errors[field] == error for field, error in expected_errors.items())
     assert "authentication/sign-in.html" in rendered_templates
 
 
 @pytest.mark.django_db
 def test_sign_in_view_post_method_invalid_credentials(client):
     """
-    GIVEN a sign in form with invalid credentials
+    GIVEN sign in invalid credentials
     WHEN a POST request is made to the sign in view
     THEN render the sign in page with the form errors
     """
 
+    # Arrange
+    user_credentials = {"email": "user@email.com", "password": "password"}
+
     # Act
-    response = client.post(
-        "/authentication/sign-in", data={"email": "user@email.com", "password": "password"}
-    )
+    response = client.post(reverse("sign-in"), user_credentials)
     sign_in_form: SignInForm = response.context["form"]
     rendered_templates = [template.name for template in response.templates]
 
@@ -87,22 +92,21 @@ def test_sign_in_view_post_method_invalid_credentials(client):
 
 
 @pytest.mark.django_db
-def test_sign_in_view_post_method_valid_form(client):
+def test_sign_in_view_post_method_valid_data(client):
     """
-    GIVEN a sign in form with valid data
+    GIVEN sign in valid data
     WHEN a POST request is made to the sign in view
     THEN redirect to the account page with the user authenticated
     """
 
     # Arrange
-    user = AppUser.objects.create_user(**USER_DATA)
+    user_credentials = {"email": "user@email.com", "password": "password"}
+    user_data = {"username": "username"} | user_credentials
+    user = AppUser.objects.create_user(**user_data)
 
     # Act
-    response = client.post(
-        "/authentication/sign-in",
-        data={"email": USER_DATA["email"], "password": USER_DATA["password"]},
-    )
+    response = client.post(reverse("sign-in"), user_credentials)
 
     # Assert
-    assert response.url == "/account"
+    assert response.url == reverse("account-details")
     assert response.client.session["_auth_user_id"] == str(user.id)

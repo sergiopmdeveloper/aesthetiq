@@ -13,7 +13,7 @@ class AccountDetailsView(View):
     Account details view.
     """
 
-    @method_decorator(login_required(login_url="/authentication/sign-in"))
+    @method_decorator(login_required)
     def get(self, request: WSGIRequest) -> HttpResponse:
         """
         Renders the account details page.
@@ -50,6 +50,8 @@ class AccountDetailsView(View):
         account_details_form = AccountDetailsForm(request.POST, instance=request.user)
 
         if not account_details_form.is_valid():
+            request.user.refresh_from_db()
+
             return render(
                 request,
                 "account/account-details.html",
