@@ -35,7 +35,7 @@
                 
                 <button
                     class="flex items-center ml-1 p-2 rounded-lg lg:hidden"
-                    data-collapse-toggle="mobile-menu-2"
+                    data-collapse-toggle="mobile-menu"
                 >
                     {% include "icons/burger.html" with class="w-6 h-6 text-gray-500" %}
                 </button>
@@ -43,7 +43,7 @@
             
             <div
                 class="hidden w-full lg:w-auto lg:flex lg:items-center lg:justify-between lg:order-1"
-                id="mobile-menu-2"
+                id="mobile-menu"
             >
                 <ul class="flex flex-col mt-4 lg:flex-row lg:space-x-8 lg:mt-0">
                     {% if user.is_authenticated %}
@@ -56,9 +56,33 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a class="p-2 lg:p-0">Tools</a>
-                        </li>
+                        <button
+                            id="tools-dropdown-button"
+                            data-dropdown-toggle="tools-dropdown"
+                            class="flex items-center gap-2 p-2 lg:p-0"
+                        >
+                            Tools
+
+                            {% include "icons/arrow-down.html" with class="w-2.5 h-2.5" %}
+                        </button>
+
+                        <div
+                            class="absolute hidden bg-white text-sm rounded-lg shadow-md z-10"
+                            id="tools-dropdown"
+                        >
+                            <div class="p-4">
+                                <ul class="space-y-4">
+                                    <li>
+                                        <a
+                                            class="text-gray-500 hover:text-blue-600"
+                                            href={% url 'remove-background' %}
+                                        >
+                                            Remove background
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     {% else %}
                         <li>
                             <a class="p-2 lg:p-0">Contact</a>

@@ -1,0 +1,19 @@
+{# Remove background page #}
+
+{% extends "layouts/page.html" %}
+
+{% load static %}
+
+{% block title %}Remove background tool{% endblock title %}
+{% block description %}Remove background page{% endblock description %}
+
+{% block body %}
+<main>
+    {% include "shared/header.html" %}
+
+    <section class="mt-24 px-4">
+        <div class="max-w-screen-2xl mx-auto">
+            <h1 class="text-2xl">Remove background</h1>
+        </div>
+    </section>
+{% endblock body %}
