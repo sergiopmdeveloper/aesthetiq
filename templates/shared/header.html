@@ -49,7 +49,7 @@
                     {% if user.is_authenticated %}
                         <li>
                             <a
-                                class="p-2 lg:p-0 {% if "/account" in request.path %}font-bold text-blue-700{% endif %}"
+                                class="p-2 lg:p-0 {% if "/account" in request.path %}text-blue-700 font-bold{% endif %}"
                                 href="/account/details"
                             >
                                 Account
@@ -59,7 +59,7 @@
                         <button
                             id="tools-dropdown-button"
                             data-dropdown-toggle="tools-dropdown"
-                            class="flex items-center gap-2 p-2 lg:p-0"
+                            class="flex items-center gap-2 {% if "/tools" in request.path %}text-blue-700 font-bold{% endif %} p-2 lg:p-0"
                         >
                             Tools
 
@@ -67,14 +67,14 @@
                         </button>
 
                         <div
-                            class="absolute hidden bg-white text-sm rounded-lg shadow-md z-10"
+                            class="absolute hidden w-full bg-white text-sm rounded-lg shadow-md z-10 lg:w-auto"
                             id="tools-dropdown"
                         >
                             <div class="p-4">
                                 <ul class="space-y-4">
                                     <li>
                                         <a
-                                            class="text-gray-500 hover:text-blue-600"
+                                            class="{% if request.path == "/tools/remove-background" %}text-blue-700{% else %}text-gray-500{% endif %}"
                                             href={% url 'remove-background' %}
                                         >
                                             Remove background
