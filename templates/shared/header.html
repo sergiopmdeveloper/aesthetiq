@@ -1,0 +1,71 @@
+{# Header #}
+
+<header class="w-full fixed top-0 bg-gray-50">
+    <nav class="px-4 py-3">
+        <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto">
+            <a
+                class="text-3xl font-bold"
+                href="/"
+            >
+                aesthetiq
+            </a>
+
+            <div class="flex items-center lg:order-2">
+                {% if user.is_authenticated %}
+                    <form method="post" action={% url 'sign-out' %}>
+                        {% csrf_token %}
+
+                        <button
+                            class="w-full bg-red-700 text-sm text-white px-4 py-2.5 rounded-lg hover:bg-red-700/80 focus:ring-4 focus:ring-red-300"
+                            onclick="disableButtonOnLoading(event)"
+                            variant="destructive"
+                        >
+                            Sign out
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="/authentication/sign-in">
+                        <button
+                            class="w-full bg-blue-700 text-sm text-white px-4 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                        >
+                            Sign in
+                        </button>
+                    </a>
+                {% endif %}
+                
+                <button
+                    class="flex items-center ml-1 p-2 rounded-lg lg:hidden"
+                    data-collapse-toggle="mobile-menu-2"
+                >
+                    {% include "icons/burger.html" with class="w-6 h-6 text-gray-500" %}
+                </button>
+            </div>
+            
+            <div
+                class="hidden w-full lg:w-auto lg:flex lg:items-center lg:justify-between lg:order-1"
+                id="mobile-menu-2"
+            >
+                <ul class="flex flex-col mt-4 lg:flex-row lg:space-x-8 lg:mt-0">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a
+                                class="p-2 lg:p-0 {% if "/account" in request.path %}font-bold text-blue-700{% endif %}"
+                                href="/account/details"
+                            >
+                                Account
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="p-2 lg:p-0">Tools</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="p-2 lg:p-0">Contact</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

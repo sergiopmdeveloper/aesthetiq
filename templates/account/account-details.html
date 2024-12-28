@@ -1,0 +1,101 @@
+{# Account details page #}
+
+{% extends "layouts/page.html" %}
+
+{% load static %}
+
+{% block title %}Account details{% endblock title %}
+{% block description %}Account details page{% endblock description %}
+
+{% block body %}
+<div class="hidden" id="result" data-result="{{ result }}"></div>
+
+<main>
+    {% include "shared/header.html" %}
+
+    <section class="mt-24 px-4">
+        <div class="max-w-screen-2xl mx-auto">
+            <h1 class="text-2xl">Account details <strong>{{ request.user.first_name }}</strong></h1>
+
+            <form class="mt-8" method="post" action={% url 'account-details' %}>
+                {% csrf_token %}
+
+                <div class="space-y-4">
+                    <div>
+                        <label
+                            class="text-sm"
+                            for="first_name"
+                        >
+                            First name
+                        </label>
+                        
+                        <input
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.first_name|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
+                            id="first_name"
+                            name="first_name"
+                            placeholder="Your first name..."
+                            autocomplete="off"
+                            value="{% if form.data.first_name %}{{ form.data.first_name }}{%else%}{{ request.user.first_name }}{%endif%}"
+                        />
+
+                        {% if form.errors.first_name|length > 0 %}
+                            <p class="text-xs text-red-500 mt-2">
+                                {{ form.errors.first_name.0 }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label
+                            class="text-sm"
+                            for="last_name"
+                        >
+                            Last name
+                        </label>
+                        
+                        <input
+                            class="w-full bg-gray-50 text-sm mt-2 p-2.5 border {% if form.errors.last_name|length > 0%}!border-red-500{%else%}border-gray-200 focus:border-blue-500{%endif%} outline-none !ring-0 rounded-lg"
+                            id="last_name"
+                            name="last_name"
+                            placeholder="Your last name..."
+                            autocomplete="off"
+                            value="{% if form.data.last_name %}{{ form.data.last_name }}{%else%}{{ request.user.last_name }}{%endif%}"
+                        />
+
+                        {% if form.errors.last_name|length > 0 %}
+                            <p class="text-xs text-red-500 mt-2">
+                                {{ form.errors.last_name.0 }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <p class="text-sm mt-4">
+                    Do you want to change your password?
+                    <a class="text-blue-500 underline">Reset</a>
+                </p>
+
+                <button
+                    class="w-full bg-blue-700 text-sm text-white mt-6 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                    onclick="disableButtonOnLoading(event)"
+                    variant="primary"
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock body %}
+
+{% block js %}
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+
+    <script type="module">
+        const result = document.getElementById("result").dataset.result;
+
+        if (result === "success") {
+            window.showToast("account-details-updated", "Account details updated");
+        }
+    </script>
+{% endblock js %}

@@ -4,15 +4,13 @@
 
 {% load static %}
 
-{% block title %}Sign In{% endblock title %}
+{% block title %}Sign in{% endblock title %}
 {% block description %}Sign in page{% endblock description %}
-
-{% block js %}
-    <script src="{% static 'js/utils.js' %}"></script>
-{% endblock js %}
 
 {% block body %}
     <main>
+        {% include "shared/header.html" %}
+
         <section>
             <div class="w-full h-screen flex items-center justify-center">
                 <div class="relative w-[30rem] bg-gray-100 p-6 rounded-lg">
@@ -75,6 +73,7 @@
                         <button
                             class="w-full bg-blue-700 text-sm text-white mt-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
                             onclick="disableButtonOnLoading(event)"
+                            variant="primary"
                         >
                             Submit
                         </button>
@@ -90,3 +89,7 @@
         </section>
     </main>
 {% endblock body %}
+
+{% block js %}
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+{% endblock js %}

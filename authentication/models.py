@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from authentication.validators import NAME_VALIDATOR
+
 
 class AppUser(AbstractUser):
     """
@@ -9,6 +11,18 @@ class AppUser(AbstractUser):
 
     email = models.EmailField(unique=True, error_messages={"unique": "Email already exists."})
     email_confirmed = models.BooleanField(default=False)
+
+    first_name = models.CharField(
+        max_length=150,
+        blank=True,
+        validators=[NAME_VALIDATOR],
+    )
+
+    last_name = models.CharField(
+        max_length=150,
+        blank=True,
+        validators=[NAME_VALIDATOR],
+    )
 
     def __str__(self) -> str:
         """
