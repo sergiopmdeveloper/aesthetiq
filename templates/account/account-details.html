@@ -7,29 +7,11 @@
 {% block title %}Account details{% endblock title %}
 {% block description %}Account details page{% endblock description %}
 
-{% block js %}
-    <script type="module" src="{% static 'js/utils.js' %}"></script>
-{% endblock js %}
-
 {% block body %}
+<div class="hidden" id="result" data-result="{{ result }}"></div>
+
 <main>
     {% include "shared/header.html" %}
-
-    {% if result == "success" %}
-        <div
-            class="absolute bottom-4 right-4 flex items-center gap-2 bg-green-300 p-2 rounded-lg shadow"
-            id="toast-account-updated"
-        >
-            <p class="text-green-700 text-xs">Account updated successfuly</p>
-
-            <button
-                class="h-6 w-6 flex items-center justify-center bg-green-500 rounded-lg hover:bg-green-500/80 focus:ring-2 focus:ring-green-400"
-                data-dismiss-target="#toast-account-updated"
-            >
-                {% include "icons/cross.html" with class="w-2 h-2 text-green-900" %}
-            </button>
-        </div>
-    {% endif %}
 
     <section class="mt-24 px-4">
         <div class="max-w-screen-2xl mx-auto">
@@ -105,3 +87,15 @@
     </section>
 </main>
 {% endblock body %}
+
+{% block js %}
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+
+    <script type="module">
+        const result = document.getElementById("result").dataset.result;
+
+        if (result === "success") {
+            window.showToast("account-details-updated", "Account details updated");
+        }
+    </script>
+{% endblock js %}
