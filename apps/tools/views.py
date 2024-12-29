@@ -28,3 +28,20 @@ class RemoveBackgroundView(View):
         """
 
         return render(request, "tools/remove-background.html")
+
+    def post(self, _: WSGIRequest) -> HttpResponse:
+        """
+        Handles the remove background request.
+
+        Parameters
+        ----------
+        _ : WSGIRequest
+            The request object, not used for now.
+
+        Returns
+        -------
+        HttpResponse
+            ...
+        """
+
+        return HttpResponse("Not implemented yet...")

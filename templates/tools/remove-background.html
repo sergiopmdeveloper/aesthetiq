@@ -14,6 +14,36 @@
     <section class="mt-24 px-4">
         <div class="max-w-screen-2xl mx-auto">
             <h1 class="text-2xl">Remove background</h1>
+
+            <form class="mt-8" method="post" action={% url 'remove-background' %}>
+                {% csrf_token %}
+
+                <label
+                    class="block text-sm font-medium"
+                    for="image-input"
+                >
+                    Upload image
+                </label>
+
+                <input
+                    class="w-full text-sm mt-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    id="image-input"
+                    type="file"
+                >
+
+                <p
+                    class="text-sm text-gray-500 mt-2"
+                    id="image-input-help"
+                >
+                    JPG or PNG images only.
+                </p>
+                
+                <button
+                    class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                >
+                    Submit
+                </button>
+            </form>
         </div>
     </section>
 {% endblock body %}
