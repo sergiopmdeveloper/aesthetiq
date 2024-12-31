@@ -1,23 +1,13 @@
 import io
 import os
-from typing import NamedTuple
 
 import requests
 from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 from rembg import remove
 
-from apps.tools.tool_factory.interfaces.tool import Tool
-
-
-class GeneratedImage(NamedTuple):
-    """
-    Generated image type.
-    """
-
-    img_bytes: bytes
-    img_format: str
-    img_name: str
+from apps.tools.tool_factory.interfaces import Tool
+from apps.tools.tool_factory.types import GeneratedImage
 
 
 class BackgroundRemover(Tool):

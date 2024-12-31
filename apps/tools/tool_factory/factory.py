@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
 
-from apps.tools.tool_factory.interfaces.tool import Tool
+from apps.tools.tool_factory.interfaces import Tool
 from apps.tools.tool_factory.tools.background_remover import BackgroundRemover
 
 T = TypeVar("T", bound=Tool)

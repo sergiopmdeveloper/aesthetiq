@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from apps.tools.tool_factory.factories.tool_factory import ToolFactory
+from apps.tools.tool_factory.factory import ToolFactory
 from apps.tools.tool_factory.tools.background_remover import BackgroundRemover
 
 
