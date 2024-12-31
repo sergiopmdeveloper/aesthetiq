@@ -1,13 +1,12 @@
-import io
-
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
-from PIL import Image
-from rembg import remove
+
+from apps.tools.tool_factory.factories.tool_factory import ToolFactory
+from apps.tools.tool_factory.tools.background_remover import BackgroundRemover
 
 
 class RemoveBackgroundView(View):
@@ -45,27 +44,23 @@ class RemoveBackgroundView(View):
         Returns
         -------
         HttpResponse
-            ...
+            The remove background page with the error message if an error occurred,
+            otherwise the image with the background removed.
         """
 
-        input_image_file = request.FILES.get("image")
+        img_file = request.FILES.get("image")
 
-        if not input_image_file:
+        if not img_file:
             return render(request, "tools/remove-background.html", {"error": "No image provided."})
 
         try:
-            input_img = Image.open(input_image_file)
+            background_remover = ToolFactory[BackgroundRemover].create_tool("background_remover")
+            background_remover.load_image_model()
 
-            input_img_buffer = io.BytesIO()
-            input_img.save(input_img_buffer, format=input_img.format)
-            input_img_bytes = input_img_buffer.getvalue()
+            img_bytes, img_format, img_name = background_remover.process(img_file=img_file)
 
-            output_img_bytes = remove(input_img_bytes)
-            output_img_format = input_img.format.lower()
-            output_img_name = input_image_file.name + "_no_bg" + output_img_format
-
-            response = HttpResponse(output_img_bytes, content_type=f"image/{output_img_format}")
-            response["Content-Disposition"] = f'attachment; filename="{output_img_name}"'
+            response = HttpResponse(img_bytes, content_type=f"image/{img_format}")
+            response["Content-Disposition"] = f'attachment; filename="{img_name}"'
 
             return response
         except Exception:
