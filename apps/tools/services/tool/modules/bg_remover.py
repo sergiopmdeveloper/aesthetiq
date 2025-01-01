@@ -6,8 +6,8 @@ from django.core.files.uploadedfile import UploadedFile
 from PIL import Image
 from rembg import remove
 
-from apps.tools.tool_factory.interfaces import Tool
-from apps.tools.tool_factory.types import GeneratedImage
+from apps.tools.services.tool.interfaces import Tool
+from apps.tools.services.tool.types import GeneratedImage
 
 
 class BackgroundRemover(Tool):

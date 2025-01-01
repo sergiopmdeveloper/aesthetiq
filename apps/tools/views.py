@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from apps.tools.tool_factory.factory import ToolFactory
-from apps.tools.tool_factory.tools.background_remover import BackgroundRemover
+from apps.tools.factories.tool_factory import ToolFactory
+from apps.tools.services.tool.modules.bg_remover import BackgroundRemover
 
 
 class RemoveBackgroundView(View):
@@ -54,7 +54,7 @@ class RemoveBackgroundView(View):
             return render(request, "tools/remove-background.html", {"error": "No image provided."})
 
         try:
-            background_remover = ToolFactory[BackgroundRemover].create_tool("background_remover")
+            background_remover = ToolFactory[BackgroundRemover].create_service("background_remover")
             background_remover.load_image_model()
 
             img_bytes, img_format, img_name = background_remover.process(img_file=img_file)
