@@ -31,11 +31,17 @@
                 </label>
 
                 <input
-                    class="w-full text-sm mt-2 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    class="w-full text-sm mt-2 border {% if error %}!border-red-500{%else%}border-gray-300{%endif%} rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
                     id="image"
                     name="image"
                     type="file"
                 >
+
+                {% if error %}
+                    <p class="text-xs text-red-500 mt-2">
+                        {{ error }}
+                    </p>
+                {% endif %}
 
                 <p
                     class="text-sm text-gray-500 mt-2"
@@ -43,9 +49,11 @@
                 >
                     JPG or PNG images only.
                 </p>
-                
+
                 <button
                     class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                    onclick="disableButtonOnLoading(event)"
+                    variant="primary"
                 >
                     Submit
                 </button>
@@ -53,3 +61,7 @@
         </div>
     </section>
 {% endblock body %}
+
+{% block js %}
+    <script type="module" src="{% static 'js/utils.js' %}"></script>
+{% endblock js %}
