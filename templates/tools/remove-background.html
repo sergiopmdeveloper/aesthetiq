@@ -58,6 +58,20 @@
                     Submit
                 </button>
             </form>
+
+            {% if original_image and processed_image %}
+                <div class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2">
+                    <div>
+                        <h2 class="text-lg">Original image</h2>
+                        <img src="{{ original_image }}" alt="Original image" class="max-w-full h-auto">
+                    </div>
+
+                    <div>
+                        <h2 class="text-lg">Processed image</h2>
+                        <img src="{{ processed_image }}" alt="Processed image" class="max-w-full h-auto">
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </section>
 {% endblock body %}
