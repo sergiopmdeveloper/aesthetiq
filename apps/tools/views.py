@@ -1,5 +1,3 @@
-import base64
-
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
@@ -9,6 +7,7 @@ from django.views import View
 
 from apps.tools.factories.tool_factory import ToolFactory
 from apps.tools.services.tool.modules.bg_remover import BackgroundRemover
+from apps.tools.utils import convert_image_to_base64
 
 
 class RemoveBackgroundView(View):
@@ -57,16 +56,19 @@ class RemoveBackgroundView(View):
 
         try:
             original_bytes = img_file.read()
-            original_base64 = base64.b64encode(original_bytes).decode("utf-8")
-            original_format = img_file.content_type.split("/")[-1]
-            original_data_url = f"data:image/{original_format};base64,{original_base64}"
+
+            original_data_url = convert_image_to_base64(
+                img_bytes=original_bytes, content_type=img_file.content_type
+            )
 
             background_remover = ToolFactory[BackgroundRemover].create_service("background_remover")
             background_remover.load_image_model()
-            processed_bytes, processed_format, _ = background_remover.process(img_file=img_file)
 
-            processed_base64 = base64.b64encode(processed_bytes).decode("utf-8")
-            processed_data_url = f"data:image/{processed_format};base64,{processed_base64}"
+            processed_bytes = background_remover.process(img_file=img_file)
+
+            processed_data_url = convert_image_to_base64(
+                img_bytes=processed_bytes, content_type=img_file.content_type
+            )
 
             return render(
                 request,

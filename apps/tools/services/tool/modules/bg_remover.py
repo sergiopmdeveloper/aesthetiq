@@ -7,7 +7,6 @@ from PIL import Image
 from rembg import remove
 
 from apps.tools.services.tool.interfaces import Tool
-from apps.tools.services.tool.types import GeneratedImage
 
 
 class BackgroundRemover(Tool):
@@ -25,7 +24,7 @@ class BackgroundRemover(Tool):
     -------
     load_image_model() -> None
         Loads the background remover model.
-    process(img_file: UploadedFile) -> GeneratedImage
+    process(img_file: UploadedFile) -> bytes
         Removes the background from an image.
     """
 
@@ -54,7 +53,7 @@ class BackgroundRemover(Tool):
             e_msg = f"Failed to download the model: {e}"
             raise e(e_msg)
 
-    def process(self, img_file: UploadedFile) -> GeneratedImage:
+    def process(self, img_file: UploadedFile) -> bytes:
         """
         Removes the background from an image.
 
@@ -65,8 +64,8 @@ class BackgroundRemover(Tool):
 
         Returns
         -------
-        GeneratedImage
-            The generated image.
+        bytes
+            The bytes of the image with the background removed.
         """
 
         try:
@@ -77,10 +76,8 @@ class BackgroundRemover(Tool):
             input_img_bytes = input_img_buffer.getvalue()
 
             output_img_bytes = remove(input_img_bytes)
-            output_img_format = input_img.format.lower()
-            output_img_name = "image." + output_img_format
 
-            return [output_img_bytes, output_img_format, output_img_name]
+            return output_img_bytes
         except Exception as e:
             e_msg = f"Failed to remove the background from the image: {e}"
             raise Exception(e_msg)
