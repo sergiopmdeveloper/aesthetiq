@@ -76,4 +76,4 @@ class RemoveBackgroundView(View):
                 {"original_image": original_data_url, "processed_image": processed_data_url},
             )
         except Exception:
-            return render(request, "tools/remove-background.html", {"error": "An error ocurred."})
+            return render(request, "tools/remove-background.html", {"error": "An error occurred."})
