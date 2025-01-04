@@ -51,7 +51,7 @@ class BackgroundRemover(Tool):
                     f.write(chunk)
         except requests.RequestException as e:
             e_msg = f"Failed to download the model: {e}"
-            raise e(e_msg)
+            raise requests.RequestException(e_msg)
 
     def process(self, img_file: UploadedFile) -> bytes:
         """
