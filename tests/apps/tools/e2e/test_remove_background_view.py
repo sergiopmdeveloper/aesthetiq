@@ -42,30 +42,35 @@ def test_remove_background_view_get_method_unauthenticated_session(client):
     assert response.url == reverse("sign-in") + f"?next={reverse('remove-background')}"
 
 
-def test_remove_background_view_post_method_no_image_given(client):
+def test_remove_background_view_post_method_remove_action_no_image_given(client):
     """
     GIVEN no image
-    WHEN a POST request is made to the remove background view
+    WHEN a POST request with remove action type is made to the remove background view
     THEN render the remove background page with an error message
     """
 
+    # Arrange
+    data = {"action_type": "remove"}
+
     # Act
-    response = client.post(reverse("remove-background"))
+    response = client.post(reverse("remove-background"), data)
     error = response.context["error"]
 
     # Assert
     assert error == "No image provided."
 
 
-def test_remove_background_view_post_method_image_given(client, image, background_remover_mock):
+def test_remove_background_view_post_method_remove_action_image_given(
+    client, image, background_remover_mock
+):
     """
     GIVEN an image
-    WHEN a POST request is made to the remove background view
+    WHEN a POST request with remove action type is made to the remove background view
     THEN render the remove background page with the original and processed images
     """
 
     # Arrange
-    data = {"image": image}
+    data = {"image": image, "action_type": "remove"}
 
     # Act
     with patch(
@@ -83,16 +88,18 @@ def test_remove_background_view_post_method_image_given(client, image, backgroun
     assert "tools/remove-background.html" in templates
 
 
-def test_remove_background_view_post_method_exception(client, image, background_remover_mock):
+def test_remove_background_view_post_method_remove_action_exception(
+    client, image, background_remover_mock
+):
     """
     GIVEN an image
-    WHEN a POST request is made to the remove background view and an exception is raised
+    WHEN a POST request with remove action type is made to the remove background view and an exception is raised
     THEN render the remove background page with an error message
     """
 
     # Arrange
     background_remover_mock.process.side_effect = Exception("Error")
-    data = {"image": image}
+    data = {"image": image, "action_type": "remove"}
 
     # Act
     with patch(
