@@ -8,6 +8,8 @@
 {% block description %}Remove background page{% endblock description %}
 
 {% block body %}
+<div class="hidden" id="result" data-result="{{ result }}"></div>
+
 <main>
     {% include "shared/header.html" %}
 
@@ -182,4 +184,14 @@
 
 {% block js %}
     <script type="module" src="{% static 'js/utils.js' %}"></script>
+
+    <script type="module">
+        const result = document.getElementById("result").dataset.result;
+
+        if (result === "success") {
+            window.showToast(
+                "background-remover-result-saved", "Result saved successfully."
+            );
+        }
+    </script>
 {% endblock js %}
