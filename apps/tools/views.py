@@ -37,7 +37,9 @@ class RemoveBackgroundView(View):
 
     def post(self, request: WSGIRequest) -> HttpResponse:
         """
-        Handles the remove background request.
+        Handles the remove background request that can be
+        either remove the background from an image
+        or save an existing background removal result.
 
         Parameters
         ----------
@@ -47,8 +49,32 @@ class RemoveBackgroundView(View):
         Returns
         -------
         HttpResponse
-            The remove background page with the error message if an error occurred,
-            otherwise the remove background page with the original and processed images.
+            The remove background page with a
+            fluid state based on the action type.
+        """
+
+        action_type = request.POST.get("action_type")
+
+        if action_type == "remove":
+            return self._remove_background(request=request)
+
+        if action_type == "save":
+            return self._save_remove_background_result(request=request)
+
+    def _remove_background(self, request: WSGIRequest) -> HttpResponse:
+        """
+        Removes the background from an image.
+
+        Parameters
+        ----------
+        request : WSGIRequest
+            The request object.
+
+        Returns
+        -------
+        HttpResponse
+            The remove background page with the
+            original and processed images.
         """
 
         img_file = request.FILES.get("image")
@@ -64,8 +90,8 @@ class RemoveBackgroundView(View):
             )
 
             background_remover = ToolFactory[BackgroundRemover].create_service("background_remover")
-            background_remover.load_image_model()
 
+            background_remover.load_image_model()
             processed_bytes = background_remover.process(img_file=img_file)
 
             processed_data_url = convert_image_to_base64(
@@ -80,15 +106,9 @@ class RemoveBackgroundView(View):
         except Exception:
             return render(request, "tools/remove-background.html", {"error": "An error occurred."})
 
-
-class SaveRemoveBackgroundResultView(View):
-    """
-    Save remove background result view.
-    """
-
-    def post(self, request: WSGIRequest) -> HttpResponse:
+    def _save_remove_background_result(self, request: WSGIRequest) -> HttpResponse:
         """
-        Handles the save remove background result request.
+        Saves the background removal result.
 
         Parameters
         ----------
@@ -98,8 +118,7 @@ class SaveRemoveBackgroundResultView(View):
         Returns
         -------
         HttpResponse
-            The remove background page with the error message if an error occurred,
-            otherwise the remove background page with the result as success.
+            The remove background page with result as success.
         """
 
         result_name = request.POST.get("result_name")

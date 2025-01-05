@@ -24,6 +24,12 @@
                 >
                     {% csrf_token %}
 
+                    <input
+                        name="action_type"
+                        type="hidden"
+                        value="remove"
+                    >
+
                     <label
                         class="block text-sm font-medium"
                         for="image"
@@ -96,7 +102,7 @@
                         <form
                             class="bg-white rounded-lg shadow"
                             method="post"
-                            action={% url 'save-remove-background-result' %}
+                            action={% url 'remove-background' %}
                         >
                             {% csrf_token %}
 
@@ -115,6 +121,12 @@
                             </div>
 
                             <div class="p-4 border-b rounded-t">
+                                <input
+                                    name="action_type"
+                                    type="hidden"
+                                    value="save"
+                                >
+
                                 <input
                                     name="original_image"
                                     type="hidden"
