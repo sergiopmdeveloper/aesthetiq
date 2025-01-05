@@ -71,6 +71,84 @@
                         <img class="max-w-full h-auto bg-red-400 mt-2" src="{{ processed_image }}" alt="Processed image">
                     </div>
                 </div>
+
+                <button
+                    class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                    data-modal-target="save_result_modal"
+                    data-modal-toggle="save_result_modal"
+                >
+                    Save result
+                </button>
+
+                <div
+                    class="hidden fixed top-0 right-0 left-0 w-full h-[calc(100%-1rem)] max-h-full justify-center items-center z-50"
+                    id="save_result_modal"
+                >
+                    <div class="w-full max-w-2xl max-h-full p-4">
+                        <form class="bg-white rounded-lg shadow">
+                            <div class="flex items-center justify-between p-4 border-b rounded-t">
+                                <h3 class="text-xl font-semibold">
+                                    Save result
+                                </h3>
+
+                                <button
+                                    class="w-8 h-8 flex items-center justify-center text-gray-400 rounded-lg hover:bg-gray-200 hover:text-black"
+                                    type="button"
+                                    data-modal-hide="save_result_modal"
+                                >
+                                    {% include "icons/cross.html" with class="w-3 h-3" %}
+                                </button>
+                            </div>
+
+                            <div class="p-4 border-b rounded-t">
+                                <input
+                                    name="original_image"
+                                    type="hidden"
+                                    value="{{ original_image }}"
+                                >
+
+                                <input
+                                    name="processed_image"
+                                    type="hidden"
+                                    value="{{ processed_image }}"
+                                >
+
+                                <label
+                                    class="text-sm"
+                                    for="result_name"
+                                >
+                                    Result name
+                                </label>
+
+                                <input
+                                    class="w-full bg-gray-50 text-sm mt-2 p-2.5 border border-gray-200 focus:border-blue-500 outline-none rounded-lg"
+                                    id="result_name"
+                                    name="result_name"
+                                    placeholder="Put a name for the result..."
+                                    autocomplete="off"
+                                />
+                            </div>
+
+                            <div class="flex items-center gap-2 p-4 border-t border-gray-200 rounded-b">
+                                <button
+                                    class="bg-blue-700 text-sm text-white px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                                    onclick="disableButtonOnLoading(event)"
+                                    variant="primary"
+                                >
+                                    Save
+                                </button>
+
+                                <button
+                                    class="bg-red-700 text-sm text-white px-8 py-2.5 rounded-lg hover:bg-red-700/80 focus:ring-4 focus:ring-red-300"
+                                    type="button"
+                                    data-modal-hide="save_result_modal"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </section>
