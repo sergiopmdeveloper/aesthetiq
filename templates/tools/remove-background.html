@@ -15,52 +15,54 @@
         <div class="max-w-screen-2xl mx-auto">
             <h1 class="text-2xl">Remove background</h1>
 
-            <form
-                class="mt-8"
-                method="post"
-                action={% url 'remove-background' %}
-                enctype="multipart/form-data"
-            >
-                {% csrf_token %}
-
-                <label
-                    class="block text-sm font-medium"
-                    for="image"
+            {% if not original_image and not processed_image %}
+                <form
+                    class="mt-8"
+                    method="post"
+                    action={% url 'remove-background' %}
+                    enctype="multipart/form-data"
                 >
-                    Upload image
-                </label>
+                    {% csrf_token %}
 
-                <input
-                    class="w-full text-sm mt-2 border {% if error %}!border-red-500{%else%}border-gray-300{%endif%} rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                    id="image"
-                    name="image"
-                    type="file"
-                >
+                    <label
+                        class="block text-sm font-medium"
+                        for="image"
+                    >
+                        Upload image
+                    </label>
 
-                {% if error %}
-                    <p class="text-xs text-red-500 mt-2">
-                        {{ error }}
+                    <input
+                        class="w-full text-sm mt-2 border {% if error %}!border-red-500{%else%}border-gray-300{%endif%} rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                        id="image"
+                        name="image"
+                        type="file"
+                    >
+
+                    {% if error %}
+                        <p class="text-xs text-red-500 mt-2">
+                            {{ error }}
+                        </p>
+                    {% endif %}
+
+                    <p
+                        class="text-sm text-gray-500 mt-2"
+                        id="image-help"
+                    >
+                        JPG or PNG images only.
                     </p>
-                {% endif %}
 
-                <p
-                    class="text-sm text-gray-500 mt-2"
-                    id="image-help"
-                >
-                    JPG or PNG images only.
-                </p>
-
-                <button
-                    class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
-                    onclick="disableButtonOnLoading(event)"
-                    variant="primary"
-                >
-                    Submit
-                </button>
-            </form>
+                    <button
+                        class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
+                        onclick="disableButtonOnLoading(event)"
+                        variant="primary"
+                    >
+                        Submit
+                    </button>
+                </form>
+            {% endif %}
 
             {% if original_image and processed_image %}
-                <div class="flex flex-col gap-8 mt-16 md:flex-row">
+                <div class="flex flex-col gap-8 mt-8 md:flex-row">
                     <div>
                         <h2 class="font-medium">Original image</h2>
                         <img class="max-w-full h-auto mt-2" src="{{ original_image }}" alt="Original image">
@@ -71,6 +73,12 @@
                         <img class="max-w-full h-auto bg-red-400 mt-2" src="{{ processed_image }}" alt="Processed image">
                     </div>
                 </div>
+
+                {% if form.errors.result_name|length > 0 %}
+                    <p class="text-xs text-red-500 mt-2">
+                        {{ form.errors.result_name.0 }}
+                    </p>
+                {% endif %}
 
                 <button
                     class="bg-blue-700 text-sm text-white mt-6 px-8 py-2.5 rounded-lg hover:bg-blue-700/80 focus:ring-4 focus:ring-blue-300"
@@ -85,7 +93,13 @@
                     id="save_result_modal"
                 >
                     <div class="w-full max-w-2xl max-h-full p-4">
-                        <form class="bg-white rounded-lg shadow">
+                        <form
+                            class="bg-white rounded-lg shadow"
+                            method="post"
+                            action={% url 'save-remove-background-result' %}
+                        >
+                            {% csrf_token %}
+
                             <div class="flex items-center justify-between p-4 border-b rounded-t">
                                 <h3 class="text-xl font-semibold">
                                     Save result
